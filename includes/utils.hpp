@@ -1,22 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.hpp                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wperu <wperu@student.42lyon.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/20 17:53:04 by wperu             #+#    #+#             */
-/*   Updated: 2021/12/14 16:43:17 by wperu            ###   ########lyon.fr   */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <exception>
-#include <cstddef>
-#include <iostream>
-#include <memory>
-#include "iterator_traits.hpp"
-
-
 namespace ft
 {
     template<bool Cond, class T = void> 
