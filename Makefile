@@ -1,31 +1,93 @@
-override PATH_I		:= includes/
+NAME_FT_STACK = test_stack_ft
+NAME_FT_VECTOR = test_vector_ft
+NAME_FT_MAP = test_map_ft
 
-FT := ft_containers
-STD := std_containers
 
-SRCS := main.cpp
-OBJS := ${SRCS:.cpp=.o}
-HEADER := enable_if.hpp  equal.hpp  exception.hpp  is_integral.hpp  iterator.hpp  iterators_traits.hpp  lexicographical_compare.hpp  map.hpp  map_fct.hpp  pair.hpp  reverse_iterator.hpp  stack.hpp  utils.hpp  vector.hpp
+NAME_STD_STACK = test_stack_std
+NAME_STD_VECTOR = test_vector_std
+NAME_STD_MAP = test_map_std
 
-INC		:= -I${PATH_I}
-CC		:= g++
-FLAG	:= -Wall -Werror -Wextra
-CPP_V	:= -std=c++98
-CCF		:= ${CC} ${FLAG} ${CPP_V} ${INC}
-RM		:= rm -rf
+HEADERS_FILE = includes
 
-all: $(FT) $(STD)
+HEADERS = \
+			includes/map_fct.hpp \
+			includes/map.hpp \
+			includes/stack.hpp \
+			includes/vector_fct.hpp \
+			includes/vector.hpp \
+			includes/utils.hpp \
+			includes/iterator_traits.hpp \
+			includes/iterator.hpp \
+			includes/iterator_reverse.hpp \
+			includes/is_integral.hpp
 
-$(FT): $(SRCS)
-	$(CCF) -o $(FT) $(SRCS)
+SRC_FT_MAP = srcs/main_map.cpp
+SRC_FT_STACK = srcs/main_stack.cpp
+SRC_FT_VECTOR = srcs/main_vector.cpp
 
-$(STD): $(SRCS)
-	$(CCF) -o $(STD) $(SRCS) -D STD
+SRC_STD_MAP = srcs/main_map_std.cpp
+SRC_STD_STACK = srcs/main_stack_std.cpp
+SRC_STD_VECTOR = srcs/main_vector_std.cpp
+
+OBJ_FT_MAP = ${SRC_FT_MAP:.cpp=.o}
+OBJ_FT_STACK = ${SRC_FT_STACK:.cpp=.o}
+OBJ_FT_VECTOR = ${SRC_FT_VECTOR:.cpp=.o}
+
+OBJ_STD_MAP = ${SRC_STD_MAP:.cpp=.o}
+OBJ_STD_STACK = ${SRC_STD_STACK:.cpp=.o}
+OBJ_STD_VECTOR = ${SRC_STD_VECTOR:.cpp=.o}
+
+
+.PHONY: all clean fclean re 
+
+all:  $(NAME_FT_MAP) $(NAME_FT_STACK)  $(NAME_FT_VECTOR) $(NAME_STD_MAP) $(NAME_STD_STACK)  $(NAME_STD_VECTOR) 
+
+$(NAME_FT_MAP): $(OBJ_FT_MAP) $(HEADERS)
+	clang++ $(OBJ_FT_MAP) -o $(NAME_FT_MAP)
+
+$(NAME_FT_STACK): $(OBJ_FT_STACK) $(HEADERS)
+	clang++ $(OBJ_FT_STACK) -o $(NAME_FT_STACK)
+
+$(NAME_FT_VECTOR): $(OBJ_FT_VECTOR) $(HEADERS)
+	clang++ $(OBJ_FT_VECTOR) -o $(NAME_FT_VECTOR)
+
+
+$(NAME_STD_MAP): $(OBJ_STD_MAP) $(HEADERS)
+	clang++ $(OBJ_STD_MAP) -o $(NAME_STD_MAP)
+
+$(NAME_STD_STACK): $(OBJ_STD_STACK) $(HEADERS)
+	clang++ $(OBJ_STD_STACK) -o $(NAME_STD_STACK)
+
+$(NAME_STD_VECTOR): $(OBJ_STD_VECTOR) $(HEADERS)
+	clang++ $(OBJ_STD_VECTOR) -o $(NAME_STD_VECTOR)
+
+
+
+
+$(OBJ_FT_MAP): %.o: %.cpp $(HEADERS)
+	clang++ -Wall -Wextra -Werror -std=c++98 -I$(HEADERS_FILE) -c $< -o $@
+
+$(OBJ_FT_STACK): %.o: %.cpp $(HEADERS)
+	clang++ -Wall -Wextra -Werror -std=c++98 -I$(HEADERS_FILE) -c $< -o $@
+
+$(OBJ_FT_VECTOR): %.o: %.cpp $(HEADERS)
+	clang++ -Wall -Wextra -Werror -std=c++98 -I$(HEADERS_FILE) -c $< -o $@
+
+
+$(OBJ_STD_MAP): %.o: %.cpp $(HEADERS)
+	clang++ -Wall -Wextra -Werror -std=c++98 -I$(HEADERS_FILE) -c $< -o $@
+
+$(OBJ_STD_STACK): %.o: %.cpp $(HEADERS)
+	clang++ -Wall -Wextra -Werror -std=c++98 -I$(HEADERS_FILE) -c $< -o $@
+
+$(OBJ_STD_VECTOR): %.o: %.cpp $(HEADERS)
+	clang++ -Wall -Wextra -Werror -std=c++98 -I$(HEADERS_FILE) -c $< -o $@
+
 
 clean:
-	${RM} -f $(OBJS) 
+	rm -f $(OBJ_FT_STACK) $(OBJ_FT_VECTOR) $(OBJ_FT_MAP) $(OBJ_STD_STACK) $(OBJ_STD_VECTOR) $(OBJ_STD_MAP)
 
-fclean:
-	${RM} -f $(FT) $(STD) $(OBJS) 
+fclean: clean
+	rm -f $(NAME_FT_STACK) $(NAME_FT_VECTOR) $(NAME_FT_MAP) $(NAME_STD_STACK) $(NAME_STD_VECTOR) $(NAME_STD_MAP)
 
 re: fclean all

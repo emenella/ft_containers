@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_fct.hpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wperu <wperu@student.42lyon.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/02 20:12:07 by wperu             #+#    #+#             */
+/*   Updated: 2021/12/10 20:11:40 by wperu            ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 
 #include "map.hpp"
 
 namespace ft
 {
+    //****CONSTRUCTOR
     
     template <class Key, class T, class Compare, class alloc>
     map<Key,T,Compare,alloc>::map(const key_compare& comp,const allocator_type& Alloc):_comp(comp),data(NULL),_alloc(Alloc)
@@ -114,6 +127,7 @@ namespace ft
         return(std::numeric_limits<size_type>::max()/sizeof(bst));
     }
 
+    //****ELEMENT ACCESS****
     template <class Key, class T, class Compare, class alloc>
     typename map<Key,T,Compare,alloc>::mapped_type& map<Key,T,Compare,alloc>::operator[](const key_type& k)
     {
@@ -127,6 +141,7 @@ namespace ft
         return(current->value->second);
     }
 
+    //****MODIFIERS****
     template <class Key, class T, class Compare, class alloc>
     typename map<Key,T,Compare,alloc>::iterator map<Key,T,Compare,alloc>::insert(iterator position, const value_type& val)
     {
@@ -220,6 +235,7 @@ namespace ft
         data = NULL;
     }
 
+    //****OBSERVERS****
     template <class Key, class T, class Compare, class alloc>
 	typename map<Key,T,Compare,alloc>::key_compare map<Key,T,Compare,alloc>::key_comp() const
     {
@@ -295,7 +311,20 @@ namespace ft
             it++;
         return (it.base());
     }
-
+    /*
+    template <class Key, class T, class Compare, class alloc>
+	typename map<Key,T,Compare,alloc>::pair<map<Key,T,Compare,alloc>::const_iterator,map<Key,T,Compare,alloc>::const_iterator> map<Key,T,Compare,alloc>::equal_range(const key_type& k) const
+    {
+        return (make_pair(lower_bound(k),upper_bound(k)));
+    }
+    
+    template <class Key, class T, class Compare, class alloc>
+	typename map<Key,T,Compare,alloc>::pair<map<Key,T,Compare,alloc>::iterator,map<Key,T,Compare,alloc>::iterator> map<Key,T,Compare,alloc>::equal_range(const key_type& k)
+    {
+        return (make_pair(lower_bound(k),upper_bound(k)));
+    }
+*/
+    //****ALLOCATOR****
     template <class Key, class T, class Compare, class alloc>
 	typename map<Key,T,Compare,alloc>::allocator_type map<Key,T,Compare,alloc>::get_allocator() const
 	{

@@ -1,5 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   iterator_traits.hpp                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wperu <wperu@student.42lyon.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/26 15:38:57 by wperu             #+#    #+#             */
+/*   Updated: 2021/12/09 20:53:25 by wperu            ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
+
+#include <exception>
 #include <cstddef>
+#include <memory>
+#include <stdexcept>
 
 namespace ft
 {
@@ -8,7 +24,12 @@ namespace ft
     struct forward_iterator_tag       : public input_iterator_tag {};
     struct bidirectional_iterator_tag : public forward_iterator_tag {};
     struct random_access_iterator_tag : public bidirectional_iterator_tag {};
-  
+    template<class Category, class T, class Distance = long,
+		class Pointer = T*, class Reference = T&> struct 	base_iterator;
+	template <class iterator> class	reverse_iterator;
+
+    
+    
     template < typename Iter>
     struct iterator_traits
     {
@@ -38,4 +59,8 @@ namespace ft
         typedef Iter_type*                 pointer;
         typedef Iter_type&                 reference;
     };
+
+    
+    
+    template <class T> struct		ft::iterator_traits<base_iterator<bidirectional_iterator_tag, T> >;
 }

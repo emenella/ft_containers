@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.hpp                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wperu <wperu@student.42lyon.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/01 17:09:04 by wperu             #+#    #+#             */
+/*   Updated: 2021/12/14 17:07:13 by wperu            ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 
 #include <iostream>
@@ -5,22 +17,21 @@
 #include <typeinfo>
 #include "utils.hpp"
 #include "iterator_traits.hpp"
-#include "reverse_iterator.hpp"
+#include "iterator_reverse.hpp"
 #include "iterator.hpp"
-#include "pair.hpp"
 #include <functional>
 
 
 namespace ft
 {
     template< class Key, class T,class Compare = std::less<Key>
-	 ,class alloc = std::allocator<ft::pair<const Key, T> > >
+	 ,class alloc = std::allocator<pair<const Key, T> > >
      class map
     {
      public:
 	    typedef Key											key_type;
 		typedef T 											mapped_type;
-		typedef ft::pair<const key_type, mapped_type>			value_type;
+		typedef pair<const key_type, mapped_type>			value_type;
 		typedef Compare										key_compare;						
 		typedef alloc										allocator_type;
 		typedef typename allocator_type::reference          reference;
@@ -34,9 +45,10 @@ namespace ft
 		struct bst;
 		class iterator;
 		class const_iterator;
-		typedef typename ft::reverse_iterator<iterator, value_type>                 reverse_iterator;
-        typedef typename ft::reverse_iterator<const_iterator, value_type>     		const_reverse_iterator;
+		typedef typename ft::reverse_iterator<iterator>                 reverse_iterator;
+        typedef typename ft::reverse_iterator<const_iterator>     		const_reverse_iterator;
 		
+		//CONSTRUCTOR
 
 		explicit map (const key_compare& comp = key_compare(),const allocator_type& Alloc = allocator_type());
 		template <class InputIterator>
@@ -47,6 +59,7 @@ namespace ft
 		~map();
 		map& operator= (const map& x);
 
+		//Iterators
 
 		iterator begin();
 		const_iterator begin() const;
@@ -60,14 +73,17 @@ namespace ft
 		reverse_iterator rend();
 		const_reverse_iterator rend() const;
 
+		//CAPACITY
 
 		bool empty() const;
 		size_type size() const;
 		size_type max_size() const;
 
+		//ELEMENT ACCESS
 
 		mapped_type& operator[] (const key_type& k);
 		
+		//MODIFIERS
 
 		pair<iterator,bool> insert (const value_type& val)
 		{
@@ -91,11 +107,12 @@ namespace ft
 
 		void clear();
 
+		//OBSERVERS
 
 		key_compare key_comp() const;
 		value_compare value_comp() const;
 
-		
+		//OPERATIONS
 
 		iterator find (const key_type& k);
 		const_iterator find (const key_type& k) const;
@@ -116,7 +133,7 @@ namespace ft
 		{
         	return (make_pair(lower_bound(k),upper_bound(k)));
     	}
-		
+		//ALLOCATOR
 
 		allocator_type get_allocator() const;
 		
@@ -125,7 +142,7 @@ namespace ft
 		key_compare _comp;
 		bst *data;
 		allocator_type _alloc;
-		
+		//BST member
 		size_type bst_size_key(bst *curr, const key_type& k) const
 		{
 			if(!curr)
@@ -332,7 +349,7 @@ namespace ft
 	//iterator
 
 	template <class Key, class T, class Compare, class Alloc>
-	class	ft::map<Key, T, Compare, Alloc>::iterator : public ft::iterator<ft::bidirectional_iterator_tag, ft::pair<const Key, T> >
+	class	ft::map<Key, T, Compare, Alloc>::iterator : public ft::base_iterator<bidirectional_iterator_tag, ft::pair<const Key, T> >
 	{
 		public :
 
@@ -410,6 +427,8 @@ namespace ft
 
 		bst **_root;
 		bst *_current;
+
+	// private functions
 		
 		bst	*_get_next_bigger_parent(bst *origin)
 		{
@@ -457,8 +476,10 @@ namespace ft
 		}
 	};
 
+	// const_iterator
+
 	template <class Key, class T, class Compare, class Alloc>
-	class	ft::map<Key, T, Compare, Alloc>::const_iterator : public ft::iterator<std::bidirectional_iterator_tag, ft::pair<const Key, T> >
+	class	ft::map<Key, T, Compare, Alloc>::const_iterator : public ft::base_iterator<bidirectional_iterator_tag, ft::pair<const Key, T> >
 	{
 
 		public :
@@ -525,6 +546,8 @@ namespace ft
 
 		bst * const *_root;
 		bst const *_current;
+
+	// private functions
 		
 		bst const	*_get_next_bigger_parent(bst const *origin) const
 		{
@@ -571,4 +594,6 @@ namespace ft
 			return (tree);
 		}
 	};
+
+	
 }
