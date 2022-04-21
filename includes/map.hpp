@@ -374,7 +374,7 @@ namespace ft
 		}
 		value_type const		*operator->() const
 		{
-			return (_current->data);
+			return (_current->value);
 		}
 		iterator	&operator++() //prefix
 		{
